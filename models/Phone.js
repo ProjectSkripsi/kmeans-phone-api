@@ -9,11 +9,14 @@ const phoneSchema = new Schema(
     type: {
       type: String,
     },
-    tahun: {
+    os: {
+      type: String,
+    },
+    year: {
       type: Number,
     },
     dispalySize: {
-      type: String,
+      type: Number,
     },
     dispalyResolution: {
       type: String,
@@ -39,6 +42,9 @@ const phoneSchema = new Schema(
     },
     battery: {
       type: String,
+    },
+    price: {
+      type: Number,
     },
     images: [
       {
