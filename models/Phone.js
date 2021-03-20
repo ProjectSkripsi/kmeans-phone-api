@@ -35,10 +35,10 @@ const phoneSchema = new Schema(
       type: String,
     },
     fingerPrint: {
-      type: Boolean,
+      type: String,
     },
     nfc: {
-      type: Boolean,
+      type: String,
     },
     battery: {
       type: String,

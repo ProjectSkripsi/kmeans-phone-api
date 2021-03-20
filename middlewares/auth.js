@@ -10,6 +10,7 @@ module.exports = {
       const bearerToken = bearer[1];
 
       let verify = hash.jwtDecode(bearerToken);
+
       User.findOne({
         _id: verify.id,
       })

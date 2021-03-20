@@ -20,8 +20,7 @@ module.exports = {
       battery,
       price,
       images,
-    } = req.body;
-
+    } = req.body.data;
     try {
       const response = await Phone.create({
         brand,
@@ -83,11 +82,13 @@ module.exports = {
   },
 
   deletePhone: async (req, res) => {
-    const { _id } = req.params;
     try {
-      const response = await Phone.findByIdAndDelete({
-        _id,
-      });
+      const { ids } = req.body;
+      const response = await Phone.updateMany(
+        { _id: { $in: ids } },
+        { $set: { deleteAt: Date.now() } },
+        { multi: true }
+      );
       res.status(200).json(response);
     } catch (error) {
       res.status(500).json(error);
@@ -96,6 +97,7 @@ module.exports = {
 
   updatePhone: async (req, res) => {
     const { _id } = req.params;
+
     const {
       brand,
       type,
@@ -139,6 +141,18 @@ module.exports = {
           returnOriginal: false,
         }
       );
+      res.status(200).json(response);
+    } catch (error) {
+      res.status(500).json(response);
+    }
+  },
+
+  getPhoneById: async (req, res) => {
+    const { _id } = req.params;
+    try {
+      const response = await Phone.findById({
+        _id,
+      });
       res.status(200).json(response);
     } catch (error) {
       res.status(500).json(response);

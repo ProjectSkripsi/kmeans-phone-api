@@ -60,7 +60,9 @@ router.post(
   function (req, res) {
     const fullUrl = req.protocol;
     const { host } = req.headers;
-    const urlFile = `https://bp-paud.arul21.com/images/${req.file.filename}`;
+    const domain = `${fullUrl}://${host}`;
+    console.log(host, fullUrl);
+    const urlFile = `${domain}/images/${req.file.filename}`;
     res.send({
       status: 200,
       message: "Your file is successfully uploaded",
