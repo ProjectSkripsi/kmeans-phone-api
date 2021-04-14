@@ -1,6 +1,6 @@
-const Phone = require("../models/Phone");
-const { encode, jwtEncode } = require("../helpers/hash");
-const bcrypt = require("bcryptjs");
+const Phone = require('../models/Phone');
+const { encode, jwtEncode } = require('../helpers/hash');
+const bcrypt = require('bcryptjs');
 
 module.exports = {
   createPhone: async (req, res) => {
@@ -15,6 +15,7 @@ module.exports = {
       cpu,
       camera,
       memory,
+      ram,
       fingerPrint,
       nfc,
       battery,
@@ -33,6 +34,7 @@ module.exports = {
         cpu,
         camera,
         memory,
+        ram,
         fingerPrint,
         nfc,
         battery,
@@ -58,13 +60,13 @@ module.exports = {
     if (search) {
       findCondition = {
         deleteAt: null,
-        type: { $regex: new RegExp(search, "i") },
+        type: { $regex: new RegExp(search, 'i') },
       };
     }
 
     try {
       const response = await Phone.find(findCondition)
-        .sort([["createdAt", "DESC"]])
+        .sort([['createdAt', 'DESC']])
         .limit(Number(pageSize) * 1)
         .skip(skip);
       const count = await Phone.countDocuments(findCondition);
@@ -109,6 +111,7 @@ module.exports = {
       cpu,
       camera,
       memory,
+      ram,
       fingerPrint,
       nfc,
       battery,
@@ -131,6 +134,7 @@ module.exports = {
           cpu,
           camera,
           memory,
+          ram,
           fingerPrint,
           nfc,
           battery,
