@@ -162,4 +162,45 @@ module.exports = {
       res.status(500).json(response);
     }
   },
+
+  getRecomendation: async (req, res) => {
+    const { pageSize, currentPage } = req.params;
+    const { search, min, max, ramMin, ramMax, memMin, memMax } = req.query;
+    const isPrice = min
+   
+    const skip =
+      Number(currentPage) === 1
+        ? 0
+        : (Number(currentPage) - 1) * Number(pageSize);
+
+    var findCondition = { deleteAt: null };
+    if (search || isPrice) {
+      findCondition = {
+        deleteAt: null,
+        type: { $regex: new RegExp(search, 'i') },
+        price:  {  $gte: Number(min) , $lte :  Number(max)},
+        ram:  {  $gte: Number(ramMin) , $lte :  Number(ramMax)},
+        memory:  {  $gte: Number(memMin) , $lte :  Number(memMax)}
+      };
+    }
+
+    try {
+      const response = await Phone.find(findCondition)
+        .sort([['createdAt', 'DESC']])
+        .limit(Number(pageSize) * 1)
+        .skip(skip);
+      const count = await Phone.countDocuments(findCondition);
+      res.status(200).json({
+        currentPage,
+        data: response,
+        pageSize,
+        status: true,
+        totalItem: count,
+        totalPage: Math.ceil(count / Number(pageSize)),
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json(error);
+    }
+  },
 };

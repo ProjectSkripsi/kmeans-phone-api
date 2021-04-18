@@ -6,10 +6,12 @@ const {
   updatePhone,
   getPhones,
   getPhoneById,
+  getRecomendation
 } = require("../controllers/phoneController");
 const { isLogin } = require("../middlewares/auth");
 
 router.post("/", isLogin, createPhone);
+router.get("/recomendation/:pageSize/:currentPage", getRecomendation);
 router.get("/:pageSize/:currentPage", getPhones);
 router.post("/delete", isLogin, deletePhone);
 router.put("/:_id", isLogin, updatePhone);
